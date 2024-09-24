@@ -3,6 +3,7 @@
   #:use-module (gnu packages audio)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages firmware)
+  #:use-module (gnu packages fonts)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages shells)
@@ -73,12 +74,12 @@
    (modify-services %base-services
                     (delete login-service-type)
                     (delete mingetty-service-type)
-                    (delete console-font-service-type)
+                    ;(delete console-font-service-type)
 
-                                        ;(console-font-service-type
-                                        ; config => (map (lambda (tty)
-                                        ;                  (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
-                                        ;                '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))
+                    ;(console-font-service-type
+                    ; config => (map (lambda (tty)
+                    ;                  (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
+                    ;                '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
@@ -97,13 +98,6 @@
                                          %default-authorized-guix-keys)))))
    (list
     ;; Seat management (can't use seatd because Wireplumber depends on elogind)
-    (console-font-service-type
-                     (map (lambda (tty)
-                            ;; Use a larger font for HIDPI screens
-                            (cons tty (file-append
-                                       font-terminus
-                                       "/share/consolefonts/ter-132n")))
-                          '("tty1" "tty2" "tty3")))
     (service elogind-service-type))))
 
 (define %wyvernh-base-operating-system
