@@ -73,7 +73,7 @@
    (modify-services %base-services
                     (delete login-service-type)
                     (delete mingetty-service-type)
-                    (delete console-font-service-type)
+                    ;(delete console-font-service-type)
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
