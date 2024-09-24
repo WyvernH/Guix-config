@@ -11,7 +11,7 @@
    (mount-point "/")
    (type "btrfs")
    (device (file-system-label "Guix"))
-   (options (wyvernh-btrfs-mount-options "@"))
+   ;(options (wyvernh-btrfs-mount-options "@"))
    (needed-for-boot? #t)))
 
 (define fs-efi
