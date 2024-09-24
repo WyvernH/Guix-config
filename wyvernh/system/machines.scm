@@ -74,6 +74,10 @@
                     (delete login-service-type)
                     (delete mingetty-service-type)
                     ;(delete console-font-service-type)
+                    (console-font-service-type
+                     config => (map (lambda (tty)
+                                      (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
+                                    '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)

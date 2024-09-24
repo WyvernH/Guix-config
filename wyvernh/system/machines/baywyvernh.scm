@@ -64,12 +64,6 @@
       ;(simple-service 'hidpi-setup session-environment-service-type
       ;                '(("GDK_DPI_SCALE" . "1.7")
       ;                  ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")))
-      (modify-services
-       %wyvernh-base-services
-       (console-font-service-type
-        config => (map (lambda (tty)
-                         (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
-                       '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))
-       )))))
+      %wyvernh-base-services))))
 
 wyvernh-system-bawyvernh
