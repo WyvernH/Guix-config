@@ -1,6 +1,10 @@
 (define-module (wyvernh system machines baywyvernh)
   #:use-module (wyvernh system machines)
-  #:export %wyvernh-system-baywyvernh)
+  #:use-module (wyvernh system btrfs)
+  #:use-module (gnu)
+  #:use-module (gnu system)
+  #:use-module (gnu system file-systems)
+  #:export (wyvernh-system-baywyvernh))
 
 (define fs-root
   (file-system
@@ -50,20 +54,22 @@
     (swap-devices
      (list
       (swap-space
-       (target (file-system-label "Swap"))
-       (dependencies mapped-devices))))
+       (target (file-system-label "Swap")))))
     (services
      (cons*
       ;(service guix-publish-service-type
       ;         (guix-publish-configuration
       ;          (host "::")
       ;          (advertise? #t)))
-      (simple-service 'hidpi-setup session-environment-service-type
-                      '(("GDK_DPI_SCALE" . "1.7")
-                        ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")))
+      ;(simple-service 'hidpi-setup session-environment-service-type
+      ;                '(("GDK_DPI_SCALE" . "1.7")
+      ;                  ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")))
       (modify-services
        %wyvernh-base-services
-       (console-font-service-type
-        config => (map (lambda (tty)
-                         (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
-                       '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6"))))))))
+       ;(console-font-service-type
+       ; config => (map (lambda (tty)
+       ;                  (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
+       ;                '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))
+       )))))
+
+wyvernh-system-bawyvernh

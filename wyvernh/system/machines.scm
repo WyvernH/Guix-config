@@ -1,6 +1,15 @@
 (define-module (wyvernh system machines)
-  #:use-module (guix channels)
+  #:use-module (gnu)
+  #:use-module (gnu packages audio)
+  #:use-module (gnu packages emacs)
   #:use-module (gnu packages firmware)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages package-management)
+  #:use-module (gnu packages shells)
+  #:use-module (gnu packages version-control)
+  #:use-module (gnu services desktop)
+  #:use-module (gnu system locale)
+  #:use-module (guix channels)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
@@ -68,7 +77,7 @@
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
-                                (channels %plt-channels)
+                                (channels %wyvernh-channels)
                                 (substitute-urls
                                  (append (list "https://substitutes.nonguix.org")
                                          %default-substitute-urls))
@@ -116,15 +125,9 @@
            bluez-alsa
            brightnessctl
            emacs-no-x-toolkit
-           exfat-utils
-           fuse-exfat
            git
-           gvfs    ;; Enable user mounts
-           intel-media-driver/nonfree
-           libva-utils
            ntfs-3g
            stow
-           vim
            %base-packages))
    (services %wyvernh-base-services)
    ;; Allow resolution of '.local' host names with mDNS.
