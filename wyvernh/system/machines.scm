@@ -1,5 +1,7 @@
 (define-module (wyvernh system machines)
   #:use-module (guix channels)
+  #:use-module (gnu packages firmware)
+  #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:export (%wyvernh-base-operating-system
