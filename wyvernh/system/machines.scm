@@ -62,10 +62,26 @@
    (modify-services %base-services
                     (delete login-service-type)
                     (delete mingetty-service-type)
-                    (delete console-font-service-type))
-   (list
-    ;; Seat management (can't use seatd because Wireplumber depends on elogind)
-    (service elogind-service-type))))
+                    (delete console-font-service-type)
+                    (guix-service-type
+                     config => (guix-configuration
+                                (inherit config)
+                                (channels %plt-channels)
+                                (substitute-urls
+                                 (append (list "https://substitutes.nonguix.org")
+                                         %default-substitute-urls))
+                                (authorized-keys
+                                 (append (list
+                                          (plain-file "non-guix.pub"
+                                                      "\
+(public-key
+ (ecc
+  (curve Ed25519)
+  (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                                         %default-authorized-guix-keys)))))
+  (list
+   ;; Seat management (can't use seatd because Wireplumber depends on elogind)
+   (service elogind-service-type))))
 
 (define %wyvernh-base-operating-system
   (operating-system
@@ -78,6 +94,8 @@
      (locale-definition (name "en_US.utf8") (source "en_US") (charset "UTF-8"))))
    (kernel linux)
    (initrd microcode-initrd)
+   (kernel-arguments '("modprobe.blacklist=nouveau"
+                       "nvidia_drm.modeset=1"))
    (firmware
     (list
      linux-firmware))
@@ -85,8 +103,6 @@
     (bootloader-configuration
      (bootloader grub-efi-bootloader)
      (targets (list "/efi"))))
-   (kernel-arguments '("modprobe.blacklist=nouveau"
-                       "nvidia_drm.modeset=1"))
    (file-systems
     (cons*
      %base-file-systems))

@@ -13,7 +13,7 @@
 (define fs-efi
   (file-system
     (mount-point "/efi")
-    (device (file-system-label "EFI System"))
+    (device (file-system-label "EFI SYSTEM"))
     (type "vfat")))
 
 ;(define fs-swap
