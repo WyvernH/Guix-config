@@ -1,6 +1,7 @@
 (define-module (wyvernh services kmonad)
   #:use-module (gnu services)
   #:use-module (gnu services shepherd)
+  #:use-module (gnu packages admin)
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
