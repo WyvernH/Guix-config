@@ -21,7 +21,7 @@
     (device (file-system-label "EFI SYSTEM"))
     (type "vfat")))
 
-(define %baywyvern-swap-devices
+(define %baywyvernh-swap-devices
   (list (swap-space (target (file-system-label "Swap")))))
 
 ;(define fs-swap
@@ -55,6 +55,6 @@
       (list fs-root
 	    fs-efi)
       %base-file-systems))
-    (swap-devices %baywyvern-swap-devices)))
+    (swap-devices %baywyvernh-swap-devices)))
 
 wyvernh-system-bawyvernh
