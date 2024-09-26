@@ -70,8 +70,7 @@
       (append (list (service gnome-desktop-service-type)
                     (service xfce-desktop-service-type)
                     (set-xorg-configuration
-                     (xorg-configuration
-                      (keyboard-layout keyboard-layout))))
+                     (xorg-configuration)))
               %desktop-services)
 
       ;; FIXME: Since GDM depends on Rust (gdm -> gnome-shell -> gjs
