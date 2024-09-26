@@ -26,7 +26,7 @@
    (requirement '(udev user-processes))
    (start #~(make-forkexec-constructor
              (list #$(file-append kmonad "/bin/kmonad")
-                   #$kbd-path "-l info")
+                   #$kbd-path "-l" "info")
              #:user "kmonad-daemon" #:group "kmonad-daemon"
              #:log-file "/var/log/kmonad.log"))
    (stop #~(make-kill-destructor))))
