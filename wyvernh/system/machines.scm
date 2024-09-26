@@ -6,6 +6,7 @@
   #:use-module (nongnu system linux-initrd)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages haskell-apps)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages shells)
