@@ -81,8 +81,7 @@
       (append (list (service mate-desktop-service-type)
                     (service xfce-desktop-service-type)
                     (set-xorg-configuration
-                     (xorg-configuration
-                      (keyboard-layout keyboard-layout))
+                     (xorg-configuration)
                      sddm-service-type))
               %desktop-services)))
 
