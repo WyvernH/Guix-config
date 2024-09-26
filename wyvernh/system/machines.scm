@@ -60,13 +60,32 @@
 (define %wyvernh-groups
   (cons* matthew-group plugdev-group %base-groups))
 
+(define %wyvernh-base-services
+  (if (target-x86-64?)
+      (append (list (service gnome-desktop-service-type)
+                    (service xfce-desktop-service-type)
+                    (set-xorg-configuration
+                     (xorg-configuration
+                      (keyboard-layout keyboard-layout))))
+              %desktop-services)
+
+      ;; FIXME: Since GDM depends on Rust (gdm -> gnome-shell -> gjs
+      ;; -> mozjs -> rust) and Rust is currently unavailable on
+      ;; non-x86_64 platforms, we use SDDM and Mate here instead of
+      ;; GNOME and GDM.
+      (append (list (service mate-desktop-service-type)
+                    (service xfce-desktop-service-type)
+                    (set-xorg-configuration
+                     (xorg-configuration
+                      (keyboard-layout keyboard-layout))
+                     sddm-service-type))
+              %desktop-services)))
 
 (define %wyvernh-base-operating-system
   (operating-system
    (host-name "baywyvernh")
    (timezone "America/Vancouver")
    (locale "en_CA.utf8")
-
    (kernel linux)
    (initrd microcode-initrd)
    (kernel-arguments '("modprobe.blacklist=nouveau"
@@ -74,10 +93,7 @@
    (firmware
     (list
      linux-firmware))
-
    (keyboard-layout (keyboard-layout "us"))
-
-   ;; Use the UEFI variant of GRUB with the EFI System
    (bootloader (bootloader-configuration
                 (bootloader grub-efi-bootloader)
                 (targets '("/efi"))
@@ -85,41 +101,20 @@
    (file-systems
     (cons*
      %base-file-systems))
-
    (users %wyvernh-user-accounts)
    (groups %wyvernh-groups)
 
-   ;; This is where we specify system-wide packages.
-   (packages (append (list
-                      ;; for user mounts
-                      gvfs
-                      ;; because
-                      emacs)
-                     %base-packages))
+   (packages
+    (cons* bluez
+	   bluez-alsa
+	   brightnessctl
+	   emacs-no-x-toolkit
+	   git
+	   ntfs-3g
+	   stow
+	   %base-packages))
 
-   ;; Add GNOME and Xfce---we can choose at the log-in screen
-   ;; by clicking the gear.  Use the "desktop" services, which
-   ;; include the X11 log-in service, networking with
-   ;; NetworkManager, and more.
-   (services (if (target-x86-64?)
-                 (append (list (service gnome-desktop-service-type)
-                               (service xfce-desktop-service-type)
-                               (set-xorg-configuration
-                                (xorg-configuration
-                                 (keyboard-layout keyboard-layout))))
-                         %desktop-services)
-
-                 ;; FIXME: Since GDM depends on Rust (gdm -> gnome-shell -> gjs
-                 ;; -> mozjs -> rust) and Rust is currently unavailable on
-                 ;; non-x86_64 platforms, we use SDDM and Mate here instead of
-                 ;; GNOME and GDM.
-                 (append (list (service mate-desktop-service-type)
-                               (service xfce-desktop-service-type)
-                               (set-xorg-configuration
-                                (xorg-configuration
-                                 (keyboard-layout keyboard-layout))
-                                sddm-service-type))
-                         %desktop-services)))
+   (services %wyvernh-base-services)
 
    ;; Allow resolution of '.local' host names with mDNS.
    (name-service-switch %mdns-host-lookup-nss)))
