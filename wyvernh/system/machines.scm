@@ -27,7 +27,7 @@
    (comment "Matthew Hinton")
    (uid 1000)
    (group "matthew")
-   ;(shell (file-append zsh "/bin/zsh"))
+   (shell (file-append zsh "/bin/zsh"))
    (supplementary-groups
     '("audio"
       "input"
