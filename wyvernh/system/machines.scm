@@ -4,7 +4,12 @@
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+  #:use-module (gnu packages audio)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages package-management)
+  #:use-module (gnu packages shells)
+  #:use-module (gnu packages version-control)
   #:use-module (guix channels)
   #:export (%wyvernh-base-operating-system))
 
