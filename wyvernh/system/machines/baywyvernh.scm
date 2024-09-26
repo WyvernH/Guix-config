@@ -1,6 +1,5 @@
 (define-module (wyvernh system machines baywyvernh)
   #:use-module (wyvernh system machines)
-  #:use-module (wyvernh system btrfs)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)
