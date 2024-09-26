@@ -5,6 +5,7 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:use-module (gnu packages emacs)
+  #:use-module (guix channels)
   #:export (%wyvernh-base-operating-system))
 
 (use-service-modules desktop sddm xorg)
