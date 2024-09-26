@@ -10,6 +10,56 @@
 (use-service-modules desktop sddm xorg)
 (use-package-modules certs gnome)
 
+(define matthew-group
+  (user-group
+   (name "matthew")
+   (id 1000)))
+
+(define plugdev-group
+  (user-group
+   (name "plugdev")
+   (system? #t)))
+
+(define %wyvernh-matthew-account
+  (user-account
+   (name "matthew")
+   (comment "Matthew Hinton")
+   (uid 1000)
+   (group "matthew")
+   ;(shell (file-append zsh "/bin/zsh"))
+   (supplementary-groups
+    '("audio"
+      "input"
+      "kvm"
+      "netdev"
+      "plugdev"
+      "users"
+      "video"
+      "wheel"))
+   (home-directory "/home/matthew")))
+
+(define %wyvernh-user-accounts
+  (cons* %wyvernh-matthew-account
+         %base-user-accounts))
+
+(define %wyvernh-channels
+  (cons* (channel
+          (name 'Guix-config)
+          (url "https://github.com/WyvernH/Guix-config"))
+         (channel
+          (name 'nonguix)
+          (url "https://gitlab.com/nonguix/nonguix")
+          (introduction
+           (make-channel-introduction
+            "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+            (openpgp-fingerprint
+             "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+         %default-channels))
+
+(define %wyvernh-groups
+  (cons* matthew-group plugdev-group %base-groups))
+
+
 (define %wyvernh-base-operating-system
   (operating-system
    (host-name "baywyvernh")
@@ -31,28 +81,12 @@
                 (bootloader grub-efi-bootloader)
                 (targets '("/efi"))
                 (keyboard-layout keyboard-layout)))
+   (file-systems
+    (cons*
+     %base-file-systems))
 
-   (file-systems (append
-                  (list (file-system
-                         (device (file-system-label "Guix"))
-                         (mount-point "/")
-                         (type "btrfs"))
-                        (file-system
-                         (device (file-system-label "EFI SYSTEM"))
-                         (mount-point "/efi")
-                         (type "vfat")))
-                  %base-file-systems))
-
-   (swap-devices (list (swap-space
-                        (target (file-system-label "Swap")))))
-
-   (users (cons (user-account
-                 (name "matthew")
-                 (comment "Matthew Hinton")
-                 (group "users")
-                 (supplementary-groups '("wheel" "netdev"
-                                         "audio" "video")))
-                %base-user-accounts))
+   (users %wyvernh-user-accounts)
+   (groups %wyvernh-groups)
 
    ;; This is where we specify system-wide packages.
    (packages (append (list
