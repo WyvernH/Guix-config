@@ -45,25 +45,6 @@
 (define wyvernh-system-bawyvernh
   (operating-system
     (inherit %wyvernh-base-operating-system)
-    (host-name "baywyvernh")
-    (file-systems
-     (cons*
-      fs-root
-      fs-efi
-      %base-file-systems))
-    (swap-devices
-     (list
-      (swap-space
-       (target (file-system-label "Swap")))))
-    (services
-     (cons*
-      ;(service guix-publish-service-type
-      ;         (guix-publish-configuration
-      ;          (host "::")
-      ;          (advertise? #t)))
-      ;(simple-service 'hidpi-setup session-environment-service-type
-      ;                '(("GDK_DPI_SCALE" . "1.7")
-      ;                  ("QT_AUTO_SCREEN_SCALE_FACTOR" . "1")))
-      %wyvernh-base-services))))
+    (host-name "baywyvernh")))
 
 wyvernh-system-bawyvernh
