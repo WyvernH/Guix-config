@@ -1,4 +1,5 @@
 (define-module (wyvernh system machines)
+  #:use-module (wyvernh services kmonad)
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
@@ -67,7 +68,7 @@
 (define %wyvernh-base-services
   (append
    (modify-services %desktop-services
-		    (guix-service-type
+                    (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
                                 (channels %wyvernh-channels)
@@ -83,8 +84,8 @@
   (curve Ed25519)
   (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
                                          %default-authorized-guix-keys)))))
-   (list
-    (service gnome-desktop-service-type))))
+   (list (service gnome-desktop-service-type)
+         (service kmonad-service-type "/home/matthew/.config/kmonad/config.kbd"))))
 
 (define %wyvernh-base-operating-system
   (operating-system
@@ -111,13 +112,14 @@
 
    (packages
     (cons* bluez
-	   bluez-alsa
-	   brightnessctl
-	   emacs-no-x-toolkit
-	   git
-	   ntfs-3g
-	   stow
-	   %base-packages))
+           bluez-alsa
+           brightnessctl
+           emacs-no-x-toolkit
+           git
+           kmonad
+           ntfs-3g
+           stow
+           %base-packages))
 
    (services %wyvernh-base-services)
 
