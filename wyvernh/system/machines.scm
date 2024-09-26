@@ -1,6 +1,5 @@
 (define-module (wyvernh system machines)
   #:use-module (gnu)
-  #:use-module (gnu system nss)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
@@ -66,23 +65,26 @@
   (cons* matthew-group plugdev-group %base-groups))
 
 (define %wyvernh-base-services
-  (if (target-x86-64?)
-      (append (list (service gnome-desktop-service-type)
-                    (service xfce-desktop-service-type)
-                    (set-xorg-configuration
-                     (xorg-configuration)))
-              %desktop-services)
-
-      ;; FIXME: Since GDM depends on Rust (gdm -> gnome-shell -> gjs
-      ;; -> mozjs -> rust) and Rust is currently unavailable on
-      ;; non-x86_64 platforms, we use SDDM and Mate here instead of
-      ;; GNOME and GDM.
-      (append (list (service mate-desktop-service-type)
-                    (service xfce-desktop-service-type)
-                    (set-xorg-configuration
-                     (xorg-configuration)
-                     sddm-service-type))
-              %desktop-services)))
+  (append
+   (modify-services %desktop-services
+		    (guix-service-type
+                     config => (guix-configuration
+                                (inherit config)
+                                (channels %wyvernh-channels)
+                                (substitute-urls
+                                 (append (list "https://substitutes.nonguix.org")
+                                         %default-substitute-urls))
+                                (authorized-keys
+                                 (append (list
+                                          (plain-file "non-guix.pub"
+                                                      "\
+(public-key
+ (ecc
+  (curve Ed25519)
+  (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                                         %default-authorized-guix-keys)))))
+   (list
+    (service gnome-desktop-service-type))))
 
 (define %wyvernh-base-operating-system
   (operating-system
