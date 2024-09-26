@@ -11,13 +11,18 @@
    (type "btrfs")
    (device (file-system-label "Guix"))
    ;(options (wyvernh-btrfs-mount-options "@"))
-   (needed-for-boot? #t)))
+   ;(needed-for-boot? #t)
+   )
+  )
 
 (define fs-efi
   (file-system
     (mount-point "/efi")
     (device (file-system-label "EFI SYSTEM"))
     (type "vfat")))
+
+(define %baywyvern-swap-devices
+  (list (swap-space (target (file-system-label "Swap")))))
 
 ;(define fs-swap
 ;  (file-system
@@ -44,6 +49,12 @@
 (define wyvernh-system-bawyvernh
   (operating-system
     (inherit %wyvernh-base-operating-system)
-    (host-name "baywyvernh")))
+    (host-name "baywyvernh")
+    (file-systems
+     (append
+      (list fs-root
+	    fs-efi)
+      %base-file-systems))
+    (swap-devices %baywyvern-swap-devices)))
 
 wyvernh-system-bawyvernh
