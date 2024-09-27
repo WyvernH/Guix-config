@@ -64,7 +64,7 @@
          %default-channels))
 
 (define %wyvernh-groups
-  (cons* matthew-group plugdev-group %base-groups))
+  (cons* matthew-group plugdev-group uinput-group %base-groups))
 
 (define %wyvernh-base-services
   (append
