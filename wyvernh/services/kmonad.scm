@@ -5,13 +5,7 @@
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
-  #:export (kmonad-service-type
-	    uinput-group))
-
-(define uinput-group
-  (user-group
-   (name "uinput")
-   (system? #t)))
+  #:export (kmonad-service-type)
 
 (define %kmonad-daemon-accounts
   (list (user-account
@@ -21,7 +15,7 @@
          (comment "kmonad daemon user")
          (home-directory "/var/empty")
          (shell (file-append shadow "/sbin/nologin"))
-	 (supplementary-groups (list '("input") uinput-group)))
+	 (supplementary-groups '("input")))
         (user-group
          (name "kmonad-daemon")
          (system? #t))))

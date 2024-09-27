@@ -27,6 +27,11 @@
    (name "plugdev")
    (system? #t)))
 
+(define uinput-group
+  (user-group
+   (name "uinput")
+   (system? #t)))
+
 (define %wyvernh-matthew-account
   (user-account
    (name "matthew")
