@@ -15,7 +15,7 @@
          (comment "kmonad daemon user")
          (home-directory "/var/empty")
          (shell (file-append shadow "/sbin/nologin"))
-	 (supplementary-groups '("input")))
+	 (supplementary-groups '("input" "uinput")))
         (user-group
          (name "kmonad-daemon")
          (system? #t))))
