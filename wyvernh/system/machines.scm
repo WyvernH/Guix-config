@@ -97,7 +97,7 @@
 					(rules (cons kmonad
 						     (udev-configuration-rules config))))))
    (list (service gnome-desktop-service-type)
-         (service kmonad-service-type "/home/matthew/.config/kmonad/config.kbd"))))
+         (kmonad-service "/home/matthew/.config/kmonad/config.kbd"))))
 
 (define %wyvernh-base-operating-system
   (operating-system
