@@ -5,7 +5,7 @@
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
-  #:export (kmonad-service-type)
+  #:export (kmonad-service-type))
 
 (define %kmonad-daemon-accounts
   (list (user-account
