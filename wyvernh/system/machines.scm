@@ -100,8 +100,7 @@
 					(inherit config)
 					(rules (cons kmonad
 						     (udev-configuration-rules config))))))
-   (list (service gnome-desktop-service-type)
-         (kmonad-service "/home/matthew/.config/kmonad/config.kbd"))))
+   (list (kmonad-service "/home/matthew/.config/kmonad/config.kbd"))))
 
 (define %wyvernh-base-operating-system
   (operating-system
