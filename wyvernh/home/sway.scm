@@ -34,6 +34,7 @@
   (list sway
         swayidle
         swaylock
+	xterm
         xdg-desktop-portal
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
