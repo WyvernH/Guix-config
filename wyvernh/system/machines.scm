@@ -75,7 +75,7 @@
 (define %wyvernh-base-services
   (cons*
    (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
-   (modify-services %base-services
+   (modify-services %desktop-services
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
