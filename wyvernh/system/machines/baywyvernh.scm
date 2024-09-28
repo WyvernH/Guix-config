@@ -1,6 +1,8 @@
 (define-module (wyvernh system machines baywyvernh)
   #:use-module (wyvernh system machines)
   #:use-module (gnu)
+  #:use-module (gnu packages fonts)
+  #:use-module (gnu services base)
   #:use-module (gnu system)
   #:use-module (gnu system file-systems)
   #:export (wyvernh-system-baywyvernh))
@@ -53,8 +55,15 @@
     (file-systems
      (append
       (list fs-root
-	    fs-efi)
+            fs-efi)
       %base-file-systems))
-    (swap-devices %baywyvernh-swap-devices)))
+    (swap-devices %baywyvernh-swap-devices)
+    (services
+     (modify-services
+      %wyvernh-base-services
+      (console-font-service-type
+       config => (map (lambda (tty)
+                        (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
+                      '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))))))
 
 wyvernh-system-bawyvernh
