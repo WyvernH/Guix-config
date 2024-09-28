@@ -37,6 +37,7 @@
         swaylock
 	kitty
 	firefox
+	grim
         xdg-desktop-portal
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
