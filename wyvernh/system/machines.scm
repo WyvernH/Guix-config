@@ -73,7 +73,8 @@
   (cons* matthew-group plugdev-group uinput-group %base-groups))
 
 (define %wyvernh-base-services
-  (append
+  (cons*
+   (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
    (modify-services %base-services
                     (guix-service-type
                      config => (guix-configuration
@@ -91,13 +92,11 @@
   (curve Ed25519)
   (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
                                          %default-authorized-guix-keys))))
-		    
-		    (udev-service-type config =>
-				       (udev-configuration
-					(inherit config)
-					(rules (cons kmonad
-						     (udev-configuration-rules config))))))
-   (list (kmonad-service "/home/matthew/.config/kmonad/config.kbd"))))
+                    (udev-service-type
+                     config => (udev-configuration
+                                (inherit config)
+                                (rules (cons kmonad
+                                             (udev-configuration-rules config))))))))
 
 (define %wyvernh-base-operating-system
   (operating-system
