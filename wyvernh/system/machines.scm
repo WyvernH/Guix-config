@@ -18,9 +18,6 @@
             %wyvernh-matthew-account
             %wyvernh-user-accounts))
 
-(use-service-modules desktop sddm xorg)
-(use-package-modules certs gnome)
-
 (define matthew-group
   (user-group
    (name "matthew")
@@ -77,7 +74,7 @@
 
 (define %wyvernh-base-services
   (append
-   (modify-services %desktop-services
+   (modify-services %base-services
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
@@ -124,7 +121,6 @@
      %base-file-systems))
    (users %wyvernh-user-accounts)
    (groups %wyvernh-groups)
-
    (packages
     (cons* bluez
            bluez-alsa
@@ -135,8 +131,6 @@
            ntfs-3g
            stow
            %base-packages))
-
    (services %wyvernh-base-services)
-
    ;; Allow resolution of '.local' host names with mDNS.
    (name-service-switch %mdns-host-lookup-nss)))
