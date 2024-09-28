@@ -11,6 +11,7 @@
   #:use-module (gnu packages terminals)
   #:use-module (gnu packages web)
   #:use-module (gnu packages wm)
+  #:use-module (gnu packages xorg)
   #:use-module (gnu services configuration)
   #:use-module (gnu services)
   #:use-module (guix gexp)
