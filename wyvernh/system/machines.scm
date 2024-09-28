@@ -12,7 +12,11 @@
   #:use-module (gnu packages shells)
   #:use-module (gnu packages version-control)
   #:use-module (guix channels)
-  #:export (%wyvernh-base-operating-system))
+  #:export (%wyvernh-base-operating-system
+            %wyvernh-channels
+            %wyvernh-base-services
+            %wyvernh-matthew-account
+            %wyvernh-user-accounts))
 
 (use-service-modules desktop sddm xorg)
 (use-package-modules certs gnome)
