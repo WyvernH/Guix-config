@@ -43,7 +43,7 @@
 
 (define wyvernh-sway-service-type
   (service-type
-   (name 'plt-sway-service)
+   (name 'wyvernh-sway-service)
    (extensions
     (list (service-extension home-profile-service-type
                              wyvernh-sway-packages-service)
@@ -56,4 +56,4 @@
           ;(service-extension home-xdg-configuration-files-service-type
           ;                   wyvernh-xdg-desktop-portal-wlr-configuration)))
    (default-value (wyvernh-sway-configuration))
-   (description "Install and configure sway.")))
+   (description "Install and configure sway.")))))
