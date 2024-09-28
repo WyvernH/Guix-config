@@ -11,6 +11,8 @@
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages shells)
   #:use-module (gnu packages version-control)
+  #:use-module (gnu services desktop)
+  #:use-module (gnu services xorg)
   #:use-module (guix channels)
   #:export (%wyvernh-base-operating-system
             %wyvernh-channels
