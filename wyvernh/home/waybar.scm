@@ -36,6 +36,7 @@
     (list (service-extension home-profile-service-type
                              wyvernh-waybar-packages-service)
           ;(service-extension home-files-service-type
-          ;                   wyvernh-waybar-config)))
+          ;                   wyvernh-waybar-config)
+	  ))
    (default-value #f)
    (description "Install and configure waybar.")))
