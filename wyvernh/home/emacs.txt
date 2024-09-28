@@ -1,0 +1,279 @@
+(define-module (wyvernh home emacs)
+  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (gnu home services)
+  #:use-module (gnu packages aspell)
+  #:use-module (gnu packages cmake)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages curl)
+  #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages engineering)
+  #:use-module (gnu packages finance)
+  #:use-module (gnu packages haskell-apps)
+  #:use-module (gnu packages imagemagick)
+  #:use-module (gnu packages mail)
+  #:use-module (gnu packages python)
+  #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages screen)
+  #:use-module (gnu packages serialization)
+  #:use-module (gnu packages shellutils)
+  #:use-module (gnu packages sqlite)
+  #:use-module (gnu packages tex)
+  #:use-module (gnu packages tree-sitter)
+  #:use-module (gnu packages w3m)
+  #:use-module (gnu packages zig)
+  #:use-module (gnu services configuration)
+  #:use-module (gnu services)
+  #:use-module (guix build-system copy)
+  #:use-module (guix gexp)
+  #:use-module (guix git-download)
+  #:use-module (guix packages)
+  #:use-module (guix packages)
+  #:use-module (guix transformations)
+  #:use-module (guix utils)
+  #:use-module (ice-9 format)
+  #:use-module (ice-9 rdelim)
+  #:use-module (nongnu packages emacs)
+  ;#:use-module (plt packages emacs-xyz)
+  #:export (emacs-wyvernh-dotemacs
+            wyvernh-emacs-service-type
+            wyvernh-emacs-configuration))
+
+(define-configuration/no-serialization wyvernh-emacs-configuration
+  (emacs
+   (package emacs-pgtk)
+   "What emacs package to use."))
+
+(define (emacs-workaround-72333 emacs)
+  "Build all emacs packages with the emacs you use.
+
+Workaround for magit picking up the internal package instead of
+emacs-transient.  See issue 72333[1] for more details.
+
+[1] https://issues.guix.gnu.org/72333"
+  (options->transformation
+   `((with-input . ,(string-append "emacs-minimal=" (package-name emacs))))))
+
+(define (wyvernh-emacs-packages-service config)
+  (map (emacs-workaround-72333 (wyvernh-emacs-configuration-emacs config))
+       (list
+        (wyvernh-emacs-configuration-emacs config)
+        ;; packages
+        emacs-ag
+        emacs-async
+        emacs-avy
+        emacs-bfuture
+        emacs-biblio
+        emacs-buffer-move
+        emacs-citar
+        emacs-citar-org-roam
+        emacs-cmake-mode
+        emacs-company
+        emacs-consult
+        emacs-consult-notmuch
+        emacs-corfu
+        emacs-cpreproc
+        emacs-cpreproc-houdini
+        emacs-cpreproc-openvdb
+        emacs-dash
+        emacs-dd-newfile
+        emacs-debbugs
+        emacs-delight
+        emacs-detached
+        emacs-devdocs
+        emacs-dired-map
+        emacs-dockerfile-mode
+        emacs-dumb-jump
+        emacs-eat
+        emacs-elfeed
+        emacs-elpher
+        emacs-embark
+        emacs-emacsql
+        emacs-emms
+        emacs-emojify
+        emacs-emprise
+        emacs-envrc
+        emacs-expand-region
+        emacs-flymake-shellcheck
+        emacs-flyspell-correct
+        ;; emacs-forge - emacs-yaml takes forever
+        emacs-gc-stats
+        emacs-geiser
+        emacs-geiser-guile
+        emacs-glsl-mode
+        emacs-gnuplot
+        emacs-go-mode
+        emacs-highlight-dev
+        emacs-highlight-symbol
+        emacs-issue
+        emacs-issue-jira
+        emacs-javel
+        emacs-jinx
+        emacs-jinja2-mode
+        emacs-json-mode
+        ;; emacs-julia-mode ;; broken
+        emacs-ledger-mode
+        emacs-libmpdel
+        emacs-libyaml
+        emacs-lsp-mode
+        emacs-lua-mode
+        emacs-magit
+        emacs-magit-annex
+        emacs-marginalia
+        emacs-marginalia-emprise
+        emacs-markdown-mode
+        emacs-meow
+        emacs-meson-mode
+        emacs-move-text
+        emacs-mpdel
+        emacs-nano-modeline
+        emacs-newfile
+        emacs-nginx-mode
+        emacs-notmuch
+        emacs-nov-el
+        emacs-ol-notmuch
+        emacs-orderless
+        emacs-org
+        emacs-org-bullets
+        emacs-org-contrib
+        emacs-org-jira
+        emacs-org-roam
+        emacs-org-roam-ui
+        emacs-org-super-agenda
+        emacs-org-timeblock
+        emacs-orgmdb
+        emacs-pdf-tools
+        ;emacs-plt
+        ;emacs-plt-elfeed
+        ;emacs-plt-ledger
+        ;emacs-plt-vterm
+        emacs-puni
+        emacs-rainbow-mode
+        emacs-rust-mode
+        emacs-s
+        emacs-scad-mode
+        emacs-setup
+        emacs-smartparens
+        emacs-string-inflection
+        emacs-sudo-edit
+        emacs-suneater-theme
+        emacs-svn-log
+        emacs-systemd-mode
+        emacs-telega
+        emacs-tile
+        emacs-toml-mode
+        emacs-transient
+        emacs-vertico
+        emacs-vterm
+        emacs-w3m
+        emacs-wgrep
+        emacs-yaml-mode
+        emacs-yasnippet
+        emacs-zig-mode
+        ;; External tools used by emacs
+        aspell
+        aspell-dict-en
+        aspell-dict-sv
+        curl
+        direnv
+        dtach
+        imagemagick
+        libyaml
+        shellcheck
+        sqlite
+        unzip
+        w3m
+        zig
+        zip
+        ;; Use for eglot
+        python
+        python-lsp-server
+        ;; Latex preview in Org-mode
+        texlive-xetex
+        texlive-scheme-basic
+        texlive-ulem
+        texlive-amsfonts
+        texlive-ec
+        ;; Latex export
+        texlive-wrapfig
+        texlive-capt-of
+        texlive-enumitem
+        texlive-unicode-math
+        texlive-fontspec
+        texlive-comment
+        ;; Tree-sitter grammar
+        tree-sitter-bash
+        tree-sitter-c
+        tree-sitter-cpp
+        tree-sitter-html
+        tree-sitter-json
+        tree-sitter-julia
+        tree-sitter-markdown
+        tree-sitter-org
+        tree-sitter-python
+        tree-sitter-rust
+        tree-sitter-scheme
+        )))
+
+;(define emacs-plt-dotemacs
+;  (let ((commit "3345b425fd4ddd3f4cfe2ac94189fd94d1f06ca9")
+;        (revision "85"))
+;    (package
+;     (name "emacs-plt-dotemacs")
+;     (version (git-version "head" revision commit))
+;     (source
+;      (origin
+;       (method git-fetch)
+;       (uri (git-reference
+;             (url "https://git.sr.ht/~plattfot/dotemacs")
+;             (commit commit)))
+;       (sha256
+;        (base32
+;         "0hdxjz7aqzh5dp884k4cl60v65b942s67c5pwyaygqf2zgi45fvz"))
+;       (file-name (git-file-name name version))))
+;     (build-system copy-build-system)
+;     (arguments
+;      `(#:install-plan
+;        '(("init.el" "init.el")
+;          ("home.el" "home.el")
+;          ("diary" "diary")
+;          ("snippets/" "snippets"))))
+;     (home-page "https://sr.ht/~plattfot/dotemacs")
+;     (synopsis "My Emacs config")
+;     (description "This contains my config for Emacs.")
+;     (license license:gpl3+))))
+
+;(define (plt-dotemacs config)
+;  (list
+;   (list ".config/emacs/init.el"
+;         #~(string-append #$emacs-plt-dotemacs "/init.el"))
+;   (list ".config/emacs/home.el"
+;         #~(string-append #$emacs-plt-dotemacs "/home.el"))
+;   (list ".config/emacs/snippets"
+;         #~(string-append #$emacs-plt-dotemacs "/snippets"))
+;   (list ".local/share/applications/emacs-lodpi.desktop"
+;         (mixed-text-file
+;          "emacs-lodpi.desktop"
+;          "[Desktop Entry]
+;Name=Emacs - LoDPI
+;GenericName=Text Editor
+;Comment=Emacs with lower GDK_DPI_SCALE
+;MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+;Exec=env GDK_DPI_SCALE=1.2 "(plt-emacs-configuration-emacs config)"/bin/emacs%F
+;Icon=emacs
+;Type=Application
+;Terminal=false
+;Categories=Development;TextEditor;
+;StartupNotify=true
+;StartupWMClass=Emacs"))))
+
+;(define plt-emacs-service-type
+;  (service-type
+;   (name 'plt-emacs-service)
+;   (extensions
+;    (list (service-extension home-profile-service-type
+;                             plt-emacs-packages-service)
+;          (service-extension home-files-service-type
+;                             plt-dotemacs)))
+;   (default-value (plt-emacs-configuration))
+;   (description "Install Emacs and all associated packages.")))
