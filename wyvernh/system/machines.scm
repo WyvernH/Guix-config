@@ -76,6 +76,7 @@
   (cons*
    (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
    (modify-services %desktop-services
+		    (delete gdm-service-type)
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
