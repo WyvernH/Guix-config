@@ -54,6 +54,7 @@
           ;(service-extension home-shepherd-service-type
           ;                   wyvernh-playerctld-shepherd)
           ;(service-extension home-xdg-configuration-files-service-type
-          ;                   wyvernh-xdg-desktop-portal-wlr-configuration)))
+	  ;                   wyvernh-xdg-desktop-portal-wlr-configuration)
+	  ))
    (default-value (wyvernh-sway-configuration))
-   (description "Install and configure sway.")))))
+   (description "Install and configure sway.")))
