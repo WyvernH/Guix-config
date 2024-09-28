@@ -14,6 +14,7 @@
   #:use-module (gnu packages xorg)
   #:use-module (gnu services configuration)
   #:use-module (gnu services)
+  #:use-module (nongnu packages mozilla)
   #:use-module (guix gexp)
   #:use-module (guix packages)
   #:use-module (guix utils)
@@ -36,6 +37,7 @@
         swayidle
         swaylock
 	xterm
+	firefox
         xdg-desktop-portal
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
