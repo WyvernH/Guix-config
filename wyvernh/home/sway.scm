@@ -3,6 +3,7 @@
   #:use-module (gnu home services shepherd)
   #:use-module (gnu home services)
   #:use-module (gnu packages bash)
+  #:use-module (gnu packages emacs)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages hardware)
