@@ -6,6 +6,8 @@
   #:use-module (gnu packages base)
   #:use-module (gnu packages admin)
   #:use-module (gnu packages password-utils)
+  #:use-module (gnu packages virtualization)
+  #:use-module (gnu packages engineering)
   #:use-module (gnu home services))
 
 (define (wyvernh-base-packages-service _)
@@ -17,7 +19,14 @@
    glibc-locales
    htop
    password-store
-   tree))
+   tree
+   qemu
+   kicad
+   kicad-doc
+   kicad-footprints
+   kicad-packages3d
+   kicad-symbols
+   kicad-templates))
 
 (define-public wyvernh-base-service-type
   (service-type
