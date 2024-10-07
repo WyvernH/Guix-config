@@ -1,7 +1,7 @@
 (define-module (wyvernh home base)
+  #:use-module (nongnu packages mozilla)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages terminals)
-  #:use-module (gnu packages web)
   #:use-module (gnu packages commencement)
   #:use-module (gnu packages base)
   #:use-module (gnu packages admin)
