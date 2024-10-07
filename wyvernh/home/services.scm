@@ -4,6 +4,7 @@
   #:use-module (gnu home services sound)
   #:use-module (gnu home)
   #:use-module (gnu services)
+  #:use-module (wyvernh home base)
   ;#:use-module (wyvernh home emacs)
   ;#:use-module (wyvernh home ssh)
   #:use-module (wyvernh home sway)
@@ -13,6 +14,7 @@
 
 (define %wyvernh-home-services
   (list
+   (service wyvernh-base-service-type)
    ;(service wyvernh-emacs-service-type)
    ;(service wyvernh-ssh-service-type)
    (service wyvernh-sway-service-type)

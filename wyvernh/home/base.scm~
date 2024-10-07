@@ -1,0 +1,50 @@
+(define-module (wyvernh home base)
+  #:use-module (gnu home services)
+  #:use-module (gnu packages admin)
+  #:use-module (gnu packages autotools)
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages commencement)
+  #:use-module (gnu packages databases)
+  #:use-module (gnu packages gl)
+  #:use-module (gnu packages guile)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages llvm)
+  #:use-module (gnu packages man)
+  #:use-module (gnu packages package-management)
+  #:use-module (gnu packages password-utils)
+  #:use-module (gnu packages rust-apps)
+  #:use-module (gnu packages scheme)
+  #:use-module (gnu packages texinfo)
+  #:use-module (gnu services)
+  #:use-module (wyvernh packages wyvernh))
+
+(define (wyvernh-base-packages-service _)
+  (list
+   autoconf
+   automake
+   binutils
+   clang-toolchain
+   gcc-toolchain
+   glibc-locales
+   gnu-make
+   guile-3.0
+   htop
+   info-reader
+   man-db
+   mesa
+   password-store
+   perf
+   recutils
+   ripgrep
+   sicp
+   stow
+   tree))
+
+(define-public wyvernh-base-service-type
+  (service-type
+   (name 'plt-base-service)
+   (extensions
+    (list (service-extension home-profile-service-type
+                             wyvernh-base-packages-service)))
+   (default-value #f)
+   (description "Install base programs.")))
