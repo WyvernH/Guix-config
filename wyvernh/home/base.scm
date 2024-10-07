@@ -1,10 +1,18 @@
 (define-module (wyvernh home base)
+  #:use-module (gnu packages emacs)
+  #:use-module (gnu packages terminals)
+  #:use-module (gnu packages web)
+  #:use-module (gnu packages commencement)
+  #:use-module (gnu packages base)
   #:use-module (gnu packages admin)
   #:use-module (gnu packages password-utils)
   #:use-module (gnu home services))
 
 (define (wyvernh-base-packages-service _)
   (list
+   emacs-next-pgtk
+   kitty
+   firefox
    gcc-toolchain
    glibc-locales
    htop
