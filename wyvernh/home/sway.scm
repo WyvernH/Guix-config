@@ -35,6 +35,7 @@
   (list sway
         swayidle
         swaylock
+        emacs-next-pgtk
 	kitty
 	firefox
 	grim
