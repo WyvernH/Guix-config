@@ -99,7 +99,11 @@
                      config => (udev-configuration
                                 (inherit config)
                                 (rules (cons kmonad
-                                             (udev-configuration-rules config))))))))
+                                             (udev-configuration-rules config)))))
+		    (elogind-service-type
+		     config => (elogind-configuration
+				(inherit config)
+				(handle-lid-switch 'ignore))))))
 
 (define %wyvernh-base-operating-system
   (operating-system
